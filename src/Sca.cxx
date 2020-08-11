@@ -78,7 +78,7 @@ void Sca::init(const roc::Parameters::CardIdType& cardId, int linkId)
 void Sca::setChannel(int gbtChannel)
 {
   mLink.linkId = gbtChannel;
-  barWrite(sc_regs::SC_LINK.index, mLink.linkId);
+  /*barWrite(sc_regs::SC_LINK.index, mLink.linkId);*/
 }
 
 void Sca::checkChannelSet()
@@ -87,17 +87,17 @@ void Sca::checkChannelSet()
     BOOST_THROW_EXCEPTION(ScaException() << ErrorInfo::Message("No SCA channel selected"));
   }
 
-  uint32_t channel = (barRead(sc_regs::SWT_MON.index) >> 8) & 0xff;
+  /*uint32_t channel = (barRead(sc_regs::SWT_MON.index) >> 8) & 0xff;
 
   if (channel != mLink.linkId) {
     setChannel(mLink.linkId);
-  }
+  }*/
 }
 
 void Sca::reset()
 {
-  barWrite(sc_regs::SC_RESET.index, 0x1);
-  barWrite(sc_regs::SC_RESET.index, 0x0);
+  barWrite((sc_regs::SC_RESET.address + 0x100 * mLink.linkId)/4, 0x1);
+  barWrite((sc_regs::SC_RESET.address + 0x100 * mLink.linkId)/4, 0x0);
 }
 
 Sca::CommandData Sca::executeCommand(uint32_t command, uint32_t data, bool lock)
@@ -129,8 +129,8 @@ Sca::CommandData Sca::executeCommand(uint32_t command, uint32_t data, bool lock)
 void Sca::write(uint32_t command, uint32_t data)
 {
   waitOnBusyClear();
-  barWrite(sc_regs::SCA_WR_DATA.index, data);
-  barWrite(sc_regs::SCA_WR_CMD.index, command);
+  barWrite((sc_regs::SCA_WR_DATA.address + 0x100 * mLink.linkId) / 4, data);
+  barWrite((sc_regs::SCA_WR_CMD.address + 0x100 * mLink.linkId) / 4, command);
   auto transactionId = (command >> 16) & 0xff;
   if (transactionId == 0x0 || transactionId == 0xff) {
     BOOST_THROW_EXCEPTION(ScaException()
@@ -147,8 +147,8 @@ void Sca::write(uint32_t command, uint32_t data)
 Sca::CommandData Sca::read()
 {
   waitOnBusyClear();
-  auto data = barRead(sc_regs::SCA_RD_DATA.index);
-  auto command = barRead(sc_regs::SCA_RD_CMD.index);
+  auto data = barRead((sc_regs::SCA_RD_DATA.address + 0x100 * mLink.linkId)/4);
+  auto command = barRead((sc_regs::SCA_RD_CMD.address + 0x100 * mLink.linkId)/4);
   /* printf("Sca::read   DATA=0x%x   CH=0x%x   TR=0x%x   CMD=0x%x\n", data,
    command >> 24, (command >> 16) & 0xff, command & 0xff);*/
 
@@ -158,8 +158,8 @@ Sca::CommandData Sca::read()
       checkError(command);
       return { command, data };
     }
-    data = barRead(sc_regs::SCA_RD_DATA.index);
-    command = barRead(sc_regs::SCA_RD_CMD.index);
+    data = barRead((sc_regs::SCA_RD_DATA.address + 0x100 * mLink.linkId)/4);
+    command = barRead((sc_regs::SCA_RD_CMD.address + 0x100 * mLink.linkId)/4);
   }
 
   std::stringstream ss;
@@ -235,8 +235,8 @@ uint32_t Sca::barRead(uint32_t index)
 
 void Sca::execute()
 {
-  barWrite(sc_regs::SCA_WR_CTRL.index, 0x4);
-  barWrite(sc_regs::SCA_WR_CTRL.index, 0x0);
+  barWrite((sc_regs::SCA_WR_CTRL.address + 0x100 * mLink.linkId)/4, 0x4);
+  barWrite((sc_regs::SCA_WR_CTRL.address + 0x100 * mLink.linkId)/4, 0x0);
   waitOnBusyClear();
 }
 
@@ -244,7 +244,7 @@ void Sca::waitOnBusyClear()
 {
   auto endTime = std::chrono::steady_clock::now() + BUSY_TIMEOUT;
   while (std::chrono::steady_clock::now() < endTime) {
-    if ((((barRead(sc_regs::SCA_RD_CTRL.index)) >> 31) & 0x1) == 0) {
+    if ((((barRead((sc_regs::SCA_RD_CTRL.address + 0x100 * mLink.linkId)/4)) >> 31) & 0x1) == 0) {
       return;
     }
   }

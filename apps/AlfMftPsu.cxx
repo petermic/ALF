@@ -87,7 +87,7 @@ class Alf : public AliceO2::Common::Program
     std::vector<roc::CardDescriptor> cardsFound = roc::findCards();
     int cardSequence = -1;
     for (auto const& card : cardsFound) {
-      if (card.serialId.getSerial() == 20547) {
+      if (card.serialId.getSerial() != 20547) {
         continue;
       }
       std::vector<AlfLink> links;

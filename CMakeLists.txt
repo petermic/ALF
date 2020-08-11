@@ -116,10 +116,12 @@ target_compile_features(ALF PUBLIC cxx_std_17)
 ####################################
 set (EXE_SRCS
   Alf.cxx
+  AlfMftPsu.cxx
   )
 
 set (EXE_NAMES
   o2-alf
+  o2-alf-mft-psu
   )
 
 if (CMAKE_BUILD_TYPE STREQUAL "Debug")
