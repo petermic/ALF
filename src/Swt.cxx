@@ -73,7 +73,7 @@ void Swt::init(const roc::Parameters::CardIdType& cardId, int linkId)
     linkId,
     card.serialId.getEndpoint() * 12 + linkId,
     mBar2,
-    roc::CardType::Cru
+    roc::CardType::Felix
   };
 
   mLlaSession = std::make_unique<LlaSession>("DDT", card.serialId);
