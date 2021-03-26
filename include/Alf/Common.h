@@ -18,8 +18,7 @@
 #define O2_ALF_INC_COMMON_H_
 
 #include <chrono>
-#include "ReadoutCard/BarInterface.h"
-#include "ReadoutCard/CardType.h"
+#include "FELIXwrapper/BarInterface.h"
 
 namespace o2
 {
@@ -40,7 +39,7 @@ struct AlfLink {
   int linkId;
   int rawLinkId;
   std::shared_ptr<roc::BarInterface> bar;
-  roc::CardType::type cardType;
+//  roc::CardType::type cardType;
 };
 
 } // namespace alf

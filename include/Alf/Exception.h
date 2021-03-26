@@ -16,7 +16,7 @@
 #ifndef O2_ALF_INC_EXCEPTION_H_
 #define O2_ALF_INC_EXCEPTION_H_
 
-#include <Common/Exceptions.h>
+#include "Lla/commonExceptions.h"
 
 namespace o2
 {

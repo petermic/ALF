@@ -30,7 +30,7 @@
 #include <boost/blank.hpp>
 #include <boost/variant.hpp>
 
-#include "ReadoutCard/BarInterface.h"
+#include "FELIXwrapper/BarInterface.h"
 #include "ReadoutCard/Parameters.h"
 
 #include "Alf/SwtWord.h"
@@ -69,7 +69,7 @@ class Swt
   /// External constructor
   /// \param cardId The card ID for which to get the SWT handle.
   /// \param linkId The link ID to set the channel to (optional).
-  Swt(const roc::Parameters::CardIdType& cardId, int linkId = -1);
+//  Swt(const roc::Parameters::CardIdType& cardId, int linkId = -1);
 
   /// External constructor
   /// \param cardId The card ID for which to get the SWT handle.
@@ -117,7 +117,7 @@ class Swt
   std::string writeSequence(std::vector<std::pair<Operation, Data>> sequence, bool lock = false);
 
  private:
-  void init(const roc::Parameters::CardIdType& cardId, int linkId);
+  void init(std::string cardId, int linkId);
   void barWrite(uint32_t offset, uint32_t data);
   uint32_t barRead(uint32_t index);
 

@@ -19,7 +19,7 @@
 #include <cstdlib>
 
 #include "AlfServer.h"
-#include "Common/Program.h"
+#include "Lla/commonProgram.h"
 #include "DimServices/ServiceNames.h"
 #include "Logger.h"
 #include "ReadoutCard/CardDescriptor.h"
