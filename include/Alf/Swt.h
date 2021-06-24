@@ -31,7 +31,7 @@
 #include <boost/variant.hpp>
 
 #include "FELIXwrapper/BarInterface.h"
-#include "ReadoutCard/Parameters.h"
+#include "FELIXwrapper/Parameters.h"
 
 #include "Alf/SwtWord.h"
 #include "Common.h"
@@ -69,7 +69,7 @@ class Swt
   /// External constructor
   /// \param cardId The card ID for which to get the SWT handle.
   /// \param linkId The link ID to set the channel to (optional).
-//  Swt(const roc::Parameters::CardIdType& cardId, int linkId = -1);
+  Swt(const roc::Parameters::CardIdType& cardId, int linkId = -1);
 
   /// External constructor
   /// \param cardId The card ID for which to get the SWT handle.

@@ -29,10 +29,11 @@
 
 #include "Alf/Exception.h"
 #include "Logger.h"
-#include "ReadoutCard/CardDescriptor.h"
-#include "ReadoutCard/CardFinder.h"
-#include "ReadoutCard/ChannelFactory.h"
-#include "ReadoutCard/Cru.h"
+#include "FELIXwrapper/Cru.h"
+//#include "ReadoutCard/CardDescriptor.h"
+//#include "ReadoutCard/CardFinder.h"
+//#include "ReadoutCard/ChannelFactory.h"
+//#include "ReadoutCard/Cru.h"
 #include "Alf/Swt.h"
 
 namespace o2
@@ -73,7 +74,7 @@ void Swt::init(const roc::Parameters::CardIdType& cardId, int linkId)
     linkId,
     card.serialId.getEndpoint() * 12 + linkId,
     mBar2,
-    roc::CardType::Cru
+    roc::CardType::FELIX
   };
 
   mLlaSession = std::make_unique<LlaSession>("DDT", card.serialId);

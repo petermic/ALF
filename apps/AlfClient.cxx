@@ -21,8 +21,8 @@
 #include <thread>
 
 #include "AlfClient.h"
-#include "Common/Program.h"
-#include "Common/GuardFunction.h"
+#include "FELIXwrapper/commonProgram.h"
+#include "FELIXwrapper/commonGuardFunction.h"
 #include "DimServices/ServiceNames.h"
 #include "Logger.h"
 
@@ -62,12 +62,12 @@ class AlfClient : public AliceO2::Common::Program
     options.add_options()("alf-id",
                           po::value<std::string>(&mOptions.alfId)->default_value(""),
                           "Hostname of node running the ALF server(required)");
-    options.add_options()("crorc",
-                          po::bool_switch(&mOptions.crorc)->default_value(false),
-                          "Flag enabling the test of the crorc (exclusive)");
-    options.add_options()("ic",
-                          po::bool_switch(&mOptions.ic)->default_value(false),
-                          "Flag enabling the ic tests");
+//    options.add_options()("crorc",
+//                          po::bool_switch(&mOptions.crorc)->default_value(false),
+//                          "Flag enabling the test of the crorc (exclusive)");
+//    options.add_options()("ic",
+//                          po::bool_switch(&mOptions.ic)->default_value(false),
+//                          "Flag enabling the ic tests");
     options.add_options()("lla",
                           po::bool_switch(&mOptions.lla)->default_value(false),
                           "Flag enabling the lla tests");
@@ -77,9 +77,9 @@ class AlfClient : public AliceO2::Common::Program
     options.add_options()("swt",
                           po::bool_switch(&mOptions.swt)->default_value(false),
                           "Flag enabling the swt tests");
-    options.add_options()("pattern-player",
-                          po::bool_switch(&mOptions.patternPlayer)->default_value(false),
-                          "Flag enabling the pattern player tests");
+//    options.add_options()("pattern-player",
+//                          po::bool_switch(&mOptions.patternPlayer)->default_value(false),
+//                          "Flag enabling the pattern player tests");
     options.add_options()("swt-stress",
                           po::bool_switch(&mOptions.swtStress)->default_value(false),
                           "Flag enabling the swt-stress tests");
@@ -117,10 +117,10 @@ class AlfClient : public AliceO2::Common::Program
 
     Logger::get().log() << "Starting the DIM Client using ALF ID=" << alfId << ", card=" << mOptions.serial << ":" << mOptions.endpoint << " and link=" << mOptions.link << endm;
 
-    AlfLink link = AlfLink{ alfId, roc::SerialId(mOptions.serial, mOptions.endpoint), mOptions.link, mOptions.endpoint * 12 + mOptions.link, nullptr, roc::CardType::Cru };
+    AlfLink link = AlfLink{ alfId, roc::SerialId(mOptions.serial, mOptions.endpoint), mOptions.link, mOptions.endpoint * 12 + mOptions.link, nullptr, roc::CardType::FELIX };
 
     ServiceNames names(link);
-
+/*
     if (mOptions.crorc) {
       link.cardType = roc::CardType::Crorc;
       RegisterSequenceRpc registerSequence(names.registerSequence());
@@ -133,18 +133,18 @@ class AlfClient : public AliceO2::Common::Program
 
       return;
     }
-
+*/
     // Only CRU from this point forward
     RegisterReadRpc registerReadRpc(names.registerRead());
     RegisterWriteRpc registerWriteRpc(names.registerWrite());
-    PatternPlayerRpc patternPlayerRpc(names.patternPlayer());
+//    PatternPlayerRpc patternPlayerRpc(names.patternPlayer());
     LlaSessionStartRpc llaSessionStartRpc(names.llaSessionStart());
     LlaSessionStopRpc llaSessionStopRpc(names.llaSessionStop());
 
     SwtSequenceRpc swtSequence(names.swtSequence());
     ScaSequenceRpc scaSequence(names.scaSequence());
-    IcSequenceRpc icSequence(names.icSequence());
-    IcGbtI2cWriteRpc icGbtI2cWriteRpc(names.icGbtI2cWrite());
+//    IcSequenceRpc icSequence(names.icSequence());
+//    IcGbtI2cWriteRpc icGbtI2cWriteRpc(names.icGbtI2cWrite());
 
     // Test register write and read
     uint32_t wAddress = 0x00f00078;
@@ -202,7 +202,7 @@ class AlfClient : public AliceO2::Common::Program
                                         std::make_pair("0x0B980461", "0x50000000") });
       Logger::get().log() << "[SCA_SEQUENCE] output: " << scaOut << endm;
     }
-
+/*
     if (mOptions.ic) {
       auto icOut = icSequence.write({
         std::make_pair("0x54,0xff", "write"),
@@ -236,7 +236,7 @@ class AlfClient : public AliceO2::Common::Program
       });
       Logger::get().log() << "Pairs test return: " << ppOut << endm;
     }
-
+*/
     if (mOptions.lla) {
       Logger::get().log() << "Running the lla" << endm;
       const auto start = std::chrono::steady_clock::now();

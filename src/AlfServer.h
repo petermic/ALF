@@ -25,12 +25,12 @@
 #include "Alf/Exception.h"
 #include "DimServices/DimServices.h"
 #include "Alf/Common.h"
-#include "Alf/Ic.h"
+//#include "Alf/Ic.h"
 #include "Alf/Sca.h"
 #include "Alf/Swt.h"
 
 #include "Lla/Lla.h"
-#include "ReadoutCard/PatternPlayer.h"
+//#include "ReadoutCard/PatternPlayer.h"
 
 namespace roc = AliceO2::roc;
 namespace lla = o2::lla;
@@ -51,9 +51,9 @@ class AlfServer
   static std::string registerWrite(const std::string& parameter, std::shared_ptr<roc::BarInterface>);
   std::string scaBlobWrite(const std::string& parameter, AlfLink link);
   std::string swtBlobWrite(const std::string& parameter, AlfLink link);
-  std::string icBlobWrite(const std::string& parameter, AlfLink link);
-  std::string icGbtI2cWrite(const std::string& parameter, AlfLink link);
-  static std::string patternPlayer(const std::string& parameter, std::shared_ptr<roc::BarInterface>);
+//  std::string icBlobWrite(const std::string& parameter, AlfLink link);
+//  std::string icGbtI2cWrite(const std::string& parameter, AlfLink link);
+//  static std::string patternPlayer(const std::string& parameter, std::shared_ptr<roc::BarInterface>);
   static std::string registerBlobWrite(const std::string& parameter, AlfLink link);
   std::string llaSessionStart(const std::string& parameter, roc::SerialId serialId);
   std::string llaSessionStop(const std::string& parameter, roc::SerialId serialId);
@@ -61,12 +61,12 @@ class AlfServer
   static std::vector<uint32_t> stringToRegisterPair(const std::string stringPair);
   static std::pair<Sca::Operation, Sca::Data> stringToScaPair(const std::string stringPair);
   static std::pair<Swt::Operation, Swt::Data> stringToSwtPair(const std::string stringPair);
-  static std::pair<Ic::Operation, Ic::Data> stringToIcPair(const std::string stringPair);
+//  static std::pair<Ic::Operation, Ic::Data> stringToIcPair(const std::string stringPair);
   static std::vector<std::vector<uint32_t>> parseStringToRegisterPairs(std::vector<std::string> stringPairs);
   static std::vector<std::pair<Sca::Operation, Sca::Data>> parseStringToScaPairs(std::vector<std::string> stringPairs);
   static std::vector<std::pair<Swt::Operation, Swt::Data>> parseStringToSwtPairs(std::vector<std::string> stringPairs);
-  static std::vector<std::pair<Ic::Operation, Ic::Data>> parseStringToIcPairs(std::vector<std::string> stringPairs);
-  static roc::PatternPlayer::Info parseStringToPatternPlayerInfo(const std::vector<std::string> sringsPairs);
+//  static std::vector<std::pair<Ic::Operation, Ic::Data>> parseStringToIcPairs(std::vector<std::string> stringPairs);
+//  static roc::PatternPlayer::Info parseStringToPatternPlayerInfo(const std::vector<std::string> sringsPairs);
 
   // custom comparator for the SerialId keys of the maps
   struct serialIdComparator {

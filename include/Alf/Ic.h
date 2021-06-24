@@ -28,8 +28,8 @@
 
 #include <boost/variant.hpp>
 
-#include "ReadoutCard/BarInterface.h"
-#include "ReadoutCard/Parameters.h"
+#include "FELIXwrapper/BarInterface.h"
+#include "FELIXwrapper/Parameters.h"
 
 #include "Common.h"
 #include "Alf/Lla.h"

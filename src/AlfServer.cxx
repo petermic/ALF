@@ -109,7 +109,7 @@ std::string AlfServer::swtBlobWrite(const std::string& parameter, AlfLink link)
   }
   return swt.writeSequence(swtPairs, lock);
 }
-
+/*
 std::string AlfServer::icBlobWrite(const std::string& parameter, AlfLink link)
 {
 
@@ -154,7 +154,7 @@ std::string AlfServer::patternPlayer(const std::string& parameter, std::shared_p
   pp.play(info);
   return "";
 }
-
+*/
 std::string AlfServer::llaSessionStart(const std::string& parameter, roc::SerialId serialId)
 {
   std::vector<std::string> parameters = Util::split(parameter, pairSeparator());
@@ -189,7 +189,7 @@ std::string AlfServer::llaSessionStop(const std::string& /*parameter*/, roc::Ser
   mSessions[serialId]->stop();
   return "";
 }
-
+/*
 roc::PatternPlayer::Info AlfServer::parseStringToPatternPlayerInfo(const std::vector<std::string> parameters)
 {
   roc::PatternPlayer::Info ppInfo;
@@ -253,7 +253,7 @@ roc::PatternPlayer::Info AlfServer::parseStringToPatternPlayerInfo(const std::ve
 
   return ppInfo;
 }
-
+*/
 std::vector<uint32_t> AlfServer::stringToRegisterPair(const std::string stringPair)
 {
   std::vector<uint32_t> registers;
@@ -403,7 +403,7 @@ std::pair<Swt::Operation, Swt::Data> AlfServer::stringToSwtPair(const std::strin
 
   return std::make_pair(operation, data);
 }
-
+/*
 std::pair<Ic::Operation, Ic::Data> AlfServer::stringToIcPair(const std::string stringPair)
 {
   std::vector<std::string> icPair = Util::split(stringPair, pairSeparator());
@@ -484,7 +484,7 @@ std::pair<Ic::Operation, Ic::Data> AlfServer::stringToIcPair(const std::string s
 
   return std::make_pair(icOperation, icData);
 }
-
+*/
 std::vector<std::vector<uint32_t>> AlfServer::parseStringToRegisterPairs(std::vector<std::string> stringPairs)
 {
   std::vector<std::vector<uint32_t>> pairs;
@@ -518,7 +518,7 @@ std::vector<std::pair<Swt::Operation, Swt::Data>> AlfServer::parseStringToSwtPai
   }
   return pairs;
 }
-
+/*
 std::vector<std::pair<Ic::Operation, Ic::Data>> AlfServer::parseStringToIcPairs(std::vector<std::string> stringPairs)
 {
 
@@ -530,7 +530,7 @@ std::vector<std::pair<Ic::Operation, Ic::Data>> AlfServer::parseStringToIcPairs(
   }
   return pairs;
 }
-
+*/
 void AlfServer::makeRpcServers(std::vector<AlfLink> links)
 {
   for (auto& link : links) {
@@ -555,11 +555,11 @@ void AlfServer::makeRpcServers(std::vector<AlfLink> links)
         // Register Write
         servers.push_back(makeServer(names.registerWrite(),
                                      [bar](auto parameter) { return registerWrite(parameter, bar); }));
-
+/*
         // Pattern Player
         servers.push_back(makeServer(names.patternPlayer(),
                                      [bar](auto parameter) { return patternPlayer(parameter, bar); }));
-
+*/
         // LLA Session Start
         servers.push_back(makeServer(names.llaSessionStart(),
                                      [link, this](auto parameter) { return llaSessionStart(parameter, link.serialId); }));
@@ -580,6 +580,7 @@ void AlfServer::makeRpcServers(std::vector<AlfLink> links)
       // SWT Sequence
       servers.push_back(makeServer(names.swtSequence(),
                                    [link, this](auto parameter) { return swtBlobWrite(parameter, link); }));
+/*
       // IC Sequence
       servers.push_back(makeServer(names.icSequence(),
                                    [link, this](auto parameter) { return icBlobWrite(parameter, link); }));
@@ -587,7 +588,7 @@ void AlfServer::makeRpcServers(std::vector<AlfLink> links)
       // IC GBT I2C write
       servers.push_back(makeServer(names.icGbtI2cWrite(),
                                    [link, this](auto parameter) { return icGbtI2cWrite(parameter, link); }));
-
+*/
     } else if (link.cardType == roc::CardType::Crorc) {
       // Register Sequence
       servers.push_back(makeServer(names.registerSequence(),

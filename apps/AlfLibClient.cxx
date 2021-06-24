@@ -44,9 +44,9 @@ class AlfLibClient : public AliceO2::Common::Program
     options.add_options()("link",
                           po::value<int>(&mOptions.link)->default_value(0),
                           "Link number");
-    options.add_options()("ic",
-                          po::bool_switch(&mOptions.ic)->default_value(false),
-                          "Flag enabling the ic tests");
+//    options.add_options()("ic",
+//                          po::bool_switch(&mOptions.ic)->default_value(false),
+//                          "Flag enabling the ic tests");
     options.add_options()("sca",
                           po::bool_switch(&mOptions.sca)->default_value(false),
                           "Flag enabling the sca tests");
@@ -164,7 +164,7 @@ class AlfLibClient : public AliceO2::Common::Program
         }
       }
     }
-
+/*
     if (mOptions.ic) {
       std::cout << "Running IC test" << std::endl;
       auto ic = Ic(roc::SerialId{ mOptions.serial, mOptions.endpoint }, mOptions.link);
@@ -206,7 +206,7 @@ class AlfLibClient : public AliceO2::Common::Program
 
     std::cout << "Exiting..." << std::endl;
   }
-
+*/
  private:
   struct OptionsStruct {
     int link = -1;

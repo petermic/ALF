@@ -23,7 +23,7 @@
 
 #include "ReadoutCard/CardFinder.h"
 #include "ReadoutCard/ChannelFactory.h"
-#include "ReadoutCard/Cru.h"
+#include "FELIXwrapper/Cru.h"
 
 #include "Alf/Exception.h"
 #include "Alf/Sca.h"

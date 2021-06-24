@@ -14,11 +14,18 @@ else()
 endif()
 
 # Define project
-project(ALF
-  VERSION 0.0.1
-  DESCRIPTION "O2 ALF"
-  LANGUAGES CXX
-)
+if(${CMAKE_VERSION} VERSION_GREATER 3.8.1)
+  project(ALF
+    VERSION 0.0.1
+    DESCRIPTION "O2 ALF"
+    LANGUAGES CXX
+  )
+else()
+  project(ALF
+    VERSION 0.0.1
+    LANGUAGES CXX
+  )
+endif()
 
 # Documentation dir
 add_subdirectory(doc)
@@ -44,19 +51,34 @@ if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
   )
 endif()
 
-
 ####################################
 # Dependencies
 ####################################
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake")
 
-find_package(Boost 1.56 REQUIRED)
-find_package(Common REQUIRED)
+set(felix_deps FlxCard drivers_rcc regmap)
+
+## find felix related software -- note link_directories is not encouraged by cmake
+## somehow this is the only way that makes everything work
+## also it needs to be called before adding the targets
+if(EXISTS $ENV{FELIX_ROOT})
+  message("-- Detecting FELIX installation at $ENV{FELIX_ROOT}.")
+  foreach(felix_dep ${felix_deps})
+    string(TOLOWER ${felix_dep} dep_loc)
+    include_directories($ENV{FELIX_ROOT}/${dep_loc})
+    link_directories($ENV{FELIX_ROOT}/$ENV{FELIX_ARCH}/${dep_loc})
+  endforeach(felix_dep)
+else()
+  message(FATAL_ERROR "-- Cannot find FELIX.")
+endif()
+
 find_package(InfoLogger REQUIRED)
-find_package(ReadoutCard REQUIRED)
+find_package(FELIXwrapper REQUIRED)
 find_package(LLA REQUIRED)
 find_package(DIM REQUIRED)
+find_package(Boost 1.56 REQUIRED)
+
 
 ####################################
 # Module, library and executable definition
@@ -87,8 +109,7 @@ target_include_directories(ALF
 
 set(LINK_LIBS
     o2::LLA
-    AliceO2::ReadoutCard
-    AliceO2::Common
+    AliceO2::FELIXwrapper
     AliceO2::InfoLogger
     Boost::boost
 )

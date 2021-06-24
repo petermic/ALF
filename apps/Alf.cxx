@@ -19,14 +19,14 @@
 #include <cstdlib>
 
 #include "AlfServer.h"
-#include "Lla/commonProgram.h"
+#include "FELIXwrapper/commonProgram.h"
 #include "DimServices/ServiceNames.h"
 #include "Logger.h"
-#include "ReadoutCard/CardDescriptor.h"
-#include "ReadoutCard/CardFinder.h"
-#include "ReadoutCard/ChannelFactory.h"
-#include "ReadoutCard/Exception.h"
-#include "ReadoutCard/FirmwareChecker.h"
+#include "FELIXwrapper/CardDescriptor.h"
+#include "FELIXwrapper/CardFinder.h"
+#include "FELIXwrapper/ChannelFactory.h"
+#include "FELIXwrapper/Exception.h"
+//#include "FELIXwrapper/FirmwareChecker.h"
 
 namespace ip = boost::asio::ip;
 namespace po = boost::program_options;
@@ -53,9 +53,9 @@ class Alf : public AliceO2::Common::Program
     options.add_options()("dim-dns-node",
                           po::value<std::string>(&mOptions.dimDnsNode)->default_value(""),
                           "The DIM DNS node to set the env var if not already set");
-    options.add_options()("no-fw-check",
-                          po::bool_switch(&mOptions.noFirmwareCheck)->default_value(false),
-                          "Disable firmware compatibility check");
+//    options.add_options()("no-fw-check",
+//                          po::bool_switch(&mOptions.noFirmwareCheck)->default_value(false),
+//                          "Disable firmware compatibility check");
   }
 
   virtual void run(const po::variables_map&) override
@@ -89,7 +89,7 @@ class Alf : public AliceO2::Common::Program
       std::vector<AlfLink> links;
 
       std::shared_ptr<roc::BarInterface> bar;
-
+/*
       // Make the RPC services for every card & link
       if (!mOptions.noFirmwareCheck) {
         try {
@@ -99,7 +99,7 @@ class Alf : public AliceO2::Common::Program
           continue;
         }
       }
-
+*/
       if (card.cardType == roc::CardType::Cru) {
 
         Logger::get().log() << "CRU " << card.serialId << endm;
@@ -114,6 +114,12 @@ class Alf : public AliceO2::Common::Program
           bar = roc::ChannelFactory().getBar(card.serialId, linkId);
           links.push_back({ alfId, card.serialId, linkId, -1, bar, roc::CardType::Crorc });
         }
+      } else if (card.cardType == roc::CardType::FELIX) {
+        Logger::get().log() << "FELIX " << card.serialId << endm;
+        bar = roc::ChannelFactory().getBar(card.serialId, 2);
+        for (int linkId = 0; linkId < FELIX_NUM_LINKS; linkId++) {
+          links.push_bac({ alfId, card.serialId, linkId, card.serialId.getEndpoint() * 12 + linkId, bar, roc::CardType::FELIX });
+        } 
       } else {
         Logger::get().log() << AliceO2::InfoLogger::InfoLogger::Severity::Warning << card.serialId << " is not a CRU or a CRORC. Skipping..." << endm;
       }

@@ -29,6 +29,7 @@ namespace roc = AliceO2::roc;
 
 static constexpr int CRU_NUM_LINKS(12);
 static constexpr int CRORC_NUM_LINKS(6);
+static constexpr int FELIX_NUM_LINKS(12);
 
 static constexpr auto BUSY_TIMEOUT = std::chrono::milliseconds(10);
 static constexpr auto CHANNEL_BUSY_TIMEOUT = std::chrono::milliseconds(10);
@@ -39,7 +40,7 @@ struct AlfLink {
   int linkId;
   int rawLinkId;
   std::shared_ptr<roc::BarInterface> bar;
-//  roc::CardType::type cardType;
+  roc::CardType::type cardType;
 };
 
 } // namespace alf

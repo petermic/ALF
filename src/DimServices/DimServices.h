@@ -26,7 +26,7 @@
 
 #include "Alf/Exception.h"
 #include "Alf/Common.h"
-#include "ReadoutCard/Register.h"
+#include "FELIXwrapper/Register.h"
 #include "Logger.h"
 
 namespace o2
